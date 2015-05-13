@@ -87,7 +87,7 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
 
         $html_string = is_null($string) ? $content : $string;
 
-        if( $class->is('index') ){
+        if( $class->is('index') || $class->is('search')){
             return $html_string;
         }
 
