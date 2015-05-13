@@ -72,9 +72,11 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
     public static function replace($content, $class, $string)
     {
 
-        $depth = 3;
-
         $html_string = is_null($string) ? $content : $string;
+
+        if( $class->is('index') ){
+            return $html_string;
+        }
 
         $toc = self::create_toc($html_string);
         return $toc['toc'] . $toc['content'];
