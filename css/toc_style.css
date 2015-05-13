@@ -1,8 +1,10 @@
 #toc {
+    position: relative;
     border: 1px solid #bba;
     background-color: #f7f8ff;
-    padding: 1em;
-    font-size: 90%;
+    padding: 5px;
+    margin-left: 8px;
+    font-size: 85%;
     width: 15em;
     float: right
 }
@@ -14,4 +16,14 @@
 
 #toc-ul ul li {
     list-style: square
+}
+
+#toc-hide {
+    position: absolute;
+    top: 0;
+    right: 0
+}
+
+#toc-header {
+    text-align: center;
 }
