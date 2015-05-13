@@ -21,6 +21,7 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
     {
         Typecho_Plugin::factory('Widget_Abstract_Contents')->contentEx = array('TableOfContents_Plugin', 'replace');
         Typecho_Plugin::factory('Widget_Abstract_Contents')->excerptEx = array('TableOfContents_Plugin', 'replace');
+        Typecho_Plugin::factory('Widget_Archive')->header = array('TableOfContents_Plugin', 'header');
     }
 
     /**
@@ -53,6 +54,13 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
      * @return void
      */
     public static function personalConfig(Typecho_Widget_Helper_Form $form){}
+
+
+    public static function header()
+    {
+        $cssUrl = Helper::options()->siteUrl . "usr/plugins/TableOfContents/css/toc_style.css";
+        echo '<link rel="stylesheet" type="text/css" href="' . $cssUrl . '" />';
+    }
 
     /**
      * 插件实现方法

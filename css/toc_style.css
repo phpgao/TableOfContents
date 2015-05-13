@@ -1,0 +1,16 @@
+#toc {
+    border: 1px solid #bba;
+    background-color: #f7f8ff;
+    padding: 1em;
+    font-size: 90%;
+    width: 15em
+}
+
+#toc ul {
+    margin: 0px;
+    list-style: none
+}
+
+#toc-ul ul li {
+    list-style: square
+}
