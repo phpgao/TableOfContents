@@ -3,7 +3,8 @@
     background-color: #f7f8ff;
     padding: 1em;
     font-size: 90%;
-    width: 15em
+    width: 15em;
+    float: right
 }
 
 #toc ul {
