@@ -22,6 +22,7 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
         Typecho_Plugin::factory('Widget_Abstract_Contents')->contentEx = array('TableOfContents_Plugin', 'replace');
         Typecho_Plugin::factory('Widget_Abstract_Contents')->excerptEx = array('TableOfContents_Plugin', 'replace');
         Typecho_Plugin::factory('Widget_Archive')->header = array('TableOfContents_Plugin', 'header');
+        Typecho_Plugin::factory('Widget_Archive')->footer = array('TableOfContents_Plugin', 'footer');
     }
 
     /**
@@ -62,6 +63,18 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
         echo '<link rel="stylesheet" type="text/css" href="' . $cssUrl . '" />';
     }
 
+    public static function footer()
+    {
+
+        echo '<script>
+                $(function(){
+                    $("#toc-switch").click(function(){
+                        $("#toc-ul").toggle("fast");
+                    });
+            });
+            </script>';
+    }
+
     /**
      * 插件实现方法
      *
@@ -97,9 +110,9 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
             );
 
         $anchors = array();
-        $toc = '<div id="toc"><ul id="toc-ul">'."\n";
+        $toc = '<div id="toc"><div id="toc-hide"><span class="am-icon-list am-btn-xs am-btn" id="toc-switch" > 显隐</span></div>'."\n";
 
-        $toc .= '<p id="toc-header">Table of Contents</p>';
+        $toc .= '<p id="toc-header">' . _t('文章目录') . '</p><ul id="toc-ul">';
         $i = $oder = $prevlvl = 0;
         $anchor_base = 'phpgao';
 
