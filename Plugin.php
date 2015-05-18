@@ -252,9 +252,9 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
 
             if ($level > $last_level)
                 // add class
-                $toc .= '<ol>';
+                $toc .= '<ul>';
             else {
-                $toc .= str_repeat('</li></ol>', $last_level - $level);
+                $toc .= str_repeat('</li></ul>', $last_level - $level);
                 $toc .= '</li>';
             }
             if ($level >= $last_level) {
@@ -267,7 +267,7 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
             $last_level = $level;
         }
 
-        $toc .= str_repeat('</li></ol>', $last_level);
+        $toc .= str_repeat('</li></ul>', $last_level);
         $toc .= '</div></div>';
 
         return $toc . "\n\n\n\n<!- toc end ->\n\n<hr>" . $html->save();
