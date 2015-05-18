@@ -67,11 +67,20 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
     {
 
         echo '<script>
-                $(function(){
-                    $("#toc-switch").click(function(){
-                        $("#toc-ul").toggle("fast");
-                    });
-            });
+                window.content_index_showTocToggle = true;
+                function content_index_toggleToc() {
+                    var tts = "显示";
+                    var tth = "隐藏";
+                    if (window.content_index_showTocToggle) {
+                        window.content_index_showTocToggle = false;
+                        document.getElementById("toc-content").style.display = "none";
+                        document.getElementById("content-index-togglelink").innerHTML = tts
+                    } else {
+                        window.content_index_showTocToggle = true;
+                        document.getElementById("toc-content").style.display = "block";
+                        document.getElementById("content-index-togglelink").innerHTML = tth
+                    }
+                }
             </script>';
     }
 
@@ -87,12 +96,12 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
 
         $html_string = is_null($string) ? $content : $string;
 
-        if( $class->is('index') || $class->is('search')){
+        if( $class->is('index') || $class->is('search') || $class->is('date')){
             return $html_string;
         }
 
-        $toc = self::create_toc($html_string);
-        return $toc['toc'] . $toc['content'];
+        $toc = self::create_toc_with_dom($html_string);
+        return $toc;
     }
 
     /**
@@ -205,10 +214,63 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
         $toc .= '</li>'."\n";
         $toc .= '</ul></div>'."\n";
 
-        return array(
-            'toc' => $toc,
-            'content' => $content
-        );
+        return $toc . $content;
+    }
+
+
+    public static function create_toc_with_dom($content)
+    {
+        require_once 'simple_html_dom.php';
+
+        $html = str_get_html($content);
+
+        $toc = '<div class="toc-index"><div class="toc-title">本文目录</div><span class="toc-toggle">[<a id="content-index-togglelink" href="javascript:content_index_toggleToc()">隐藏</a>]</span><div id="toc-content">';
+        $toc .= '';
+        $last_level = 0;
+        $count_h2 = 0;
+        $new = $html->find('h2,h3');
+
+        if(count($new) < 3) return $content;
+
+        foreach($new as $h){
+
+
+
+            $innerTEXT = trim($h->innertext);
+            $id =  str_replace(' ','_',$innerTEXT);
+            $level = intval($h->tag[1]);
+
+            if($level == 2){
+                $count_h2++;
+                $innerTEXT = self::dec2roman($count_h2) . ' ' . $innerTEXT;
+            }
+            $h->id= $id; // add id attribute so we can jump to this element
+
+            $h->innertext = $innerTEXT ; // add id attribute so we can jump to this element
+
+
+            if($level > $last_level)
+                // add class
+                $toc .= '<ol>';
+            else{
+                $toc .= str_repeat('</li></ol>', $last_level - $level);
+                $toc .= '</li>';
+            }
+            if($level >= $last_level){
+                $toc .= "<li class='toc-level$level'><a href='#{$id}'>{$innerTEXT}</a>";
+            }else{
+                $toc .= "<li><a href='#{$id}'>{$innerTEXT}</a>";
+            }
+
+
+            $last_level = $level;
+        }
+
+        $toc .= str_repeat('</li></ol>', $last_level);
+        $toc .= '</div></div>';
+
+        return $toc . "<hr>" . $html->save();
+
     }
 
 

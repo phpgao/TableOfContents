@@ -1,29 +1,36 @@
-#toc {
+.toc-index {
+    padding: 10px;
+    border: 1px solid #ddd;
+    background: #f8f8f8;
+    line-height: 160%;
+    max-width: 26%;
+    font-size: 12px;
     position: relative;
-    border: 1px solid #bba;
-    background-color: #f7f8ff;
-    padding: 5px;
-    margin-left: 8px;
-    font-size: 85%;
-    width: 15em;
-    float: right
+    z-index: 900;
+    margin: 0 0 10px 10px;
+    float: right;
+
 }
 
-#toc ul {
-    margin: 0px;
-    list-style: none
+.toc-title {
+    margin: 0 0 3px 0;
+    padding: 0;
+    font-size: 130%;
+    font-weight: bold
 }
 
-#toc-ul ul li {
-    list-style: square
+.toc-toggle {
+    font-size: 9pt
 }
 
-#toc-hide {
-    position: absolute;
-    top: 0;
-    right: 0
+.toc-index ol {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    list-style: none;
 }
 
-#toc-header {
-    text-align: center;
+.toc-level3 {
+    margin-left: 20px;
+    list-style-type: square;
 }
