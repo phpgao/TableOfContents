@@ -149,7 +149,6 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
                 $anchor = $anchor_base . $anchor;
             }
 
-
             // 如果相同，则入数组递增输出
             if (!in_array($anchor, $anchors)) {
                 $anchors[] = $anchor;
@@ -224,7 +223,7 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
 
     public static function create_toc_with_dom($content)
     {
-        require_once 'simple_html_dom.php';
+        class_exists('simple_html_dom') || require_once 'simple_html_dom.php';
 
         $html = str_get_html($content, 1, 1, 'UTF-8', false);
 
@@ -249,7 +248,6 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
 
             $h->innertext = $innerTEXT; // add id attribute so we can jump to this element
 
-
             if ($level > $last_level)
                 // add class
                 $toc .= '<ul>';
@@ -269,6 +267,7 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
 
         $toc .= str_repeat('</li></ul>', $last_level);
         $toc .= '</div></div>';
+
 
         return $toc . "\n\n\n\n<!- toc end ->\n\n<hr>" . $html->save();
 
