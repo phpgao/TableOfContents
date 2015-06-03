@@ -227,7 +227,7 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
 
         $html = str_get_html($content, 1, 1, 'UTF-8', false);
 
-        $toc = '<div class="toc-index"><div class="toc-title">本文目录</div><span class="toc-toggle">[<a id="content-index-togglelink" href="javascript:content_index_toggleToc()">隐藏</a>]</span><div id="toc-content">';
+        $toc = '<div class="toc-index"><div class="toc-title">本文目录 <span class="toc-toggle">[<a id="content-index-togglelink" href="javascript:content_index_toggleToc()">隐藏</a>]</span></div><div id="toc-content">';
         $toc .= '';
         $last_level = 0;
         $count_h2 = 0;
