@@ -6,7 +6,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
  *
  * @package TableOfContents
  * @author 老高
- * @version 0.2
+ * @version 0.3
  * @link http://www.phpgao.com
  */
 class TableOfContents_Plugin implements Typecho_Plugin_Interface
