@@ -3,13 +3,12 @@
     border: 1px solid #ddd;
     background: #f8f8f8;
     line-height: 160%;
-    max-width: 26%;
     font-size: 12px;
+    width: 100%;
     position: relative;
     z-index: 900;
     margin: 0 0 10px 10px;
     float: right;
-
 }
 
 .toc-title {
@@ -34,3 +33,8 @@
     margin-left: 20px;
     list-style-type: square;
 }
+
+@media (min-width:768px){
+    .toc-index {
+        max-width: 30%
+    }}
