@@ -8,7 +8,7 @@
     position: relative;
     z-index: 900;
     margin: 0 0 10px 10px;
-    float: right;
+
 }
 
 .toc-title {
@@ -36,5 +36,5 @@
 
 @media (min-width:768px){
     .toc-index {
-        max-width: 30%
+        max-width: 30%;float: right;
     }}
