@@ -3,11 +3,12 @@
     border: 1px solid #ddd;
     background: #f8f8f8;
     line-height: 160%;
-    font-size: 12px;
+    font-size: 14px;
     width: 100%;
     position: relative;
     z-index: 900;
-    margin: 0 0 10px 10px;
+    margin: 20px 5px;
+    text-indent: 0;
 
 }
 
@@ -36,5 +37,4 @@
 
 @media (min-width:768px){
     .toc-index {
-        max-width: 30%;float: right;
     }}

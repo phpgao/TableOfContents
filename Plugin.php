@@ -20,10 +20,12 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
      */
     public static function activate()
     {
+        Typecho_Plugin::factory('Widget_Abstract_Contents')->markdown = array('TableOfContents_Plugin', 'replaceMarksAndParse');
         Typecho_Plugin::factory('Widget_Abstract_Contents')->contentEx = array('TableOfContents_Plugin', 'replace');
         Typecho_Plugin::factory('Widget_Abstract_Contents')->excerptEx = array('TableOfContents_Plugin', 'replace');
         Typecho_Plugin::factory('Widget_Archive')->header = array('TableOfContents_Plugin', 'header');
         Typecho_Plugin::factory('Widget_Archive')->footer = array('TableOfContents_Plugin', 'footer');
+
     }
 
     /**
@@ -74,8 +76,8 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
         echo '<script>
                 window.content_index_showTocToggle = true;
                 function content_index_toggleToc() {
-                    var tts = "显示";
-                    var tth = "隐藏";
+                    var tts = "'._t('显示').'";
+                    var tth = "'._t('隐藏').'";
                     if (window.content_index_showTocToggle) {
                         window.content_index_showTocToggle = false;
                         document.getElementById("toc-content").style.display = "none";
@@ -87,6 +89,18 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
                     }
                 }
             </script>';
+    }
+
+    /**
+     * 将[TOC]替换为<!--TOC-->，避免之后被render.
+     *
+     * @access public
+     * @param markdown $string
+     * @return string
+     */
+    public static function replaceMarksAndParse($content, $class)
+    {
+        return Markdown::convert(str_replace('[TOC]','<!--TOC-->',$content));
     }
 
     /**
@@ -102,6 +116,10 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
         $html_string = is_null($string) ? $content : $string;
 
         if ($class->is('index') || $class->is('search') || $class->is('date')) {
+            return $html_string;
+        }
+
+        if(strpos($html_string,'<!--TOC-->') === FALSE){
             return $html_string;
         }
 
@@ -217,7 +235,9 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
         $toc .= '</li>' . "\n";
         $toc .= '</ul></div>' . "\n";
 
-        return $toc . $content;
+        $content = str_replace('<!--TOC-->',$toc,$content);
+
+        return $content;
     }
 
 
@@ -227,7 +247,7 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
 
         $html = str_get_html($content, 1, 1, 'UTF-8', false);
 
-        $toc = '<div class="toc-index"><div class="toc-title">本文目录 <span class="toc-toggle">[<a id="content-index-togglelink" href="javascript:content_index_toggleToc()">隐藏</a>]</span></div><div id="toc-content">';
+        $toc = '<div class="toc-index"><div class="toc-title">本文目录 <span class="toc-toggle">[<a id="content-index-togglelink" href="javascript:content_index_toggleToc()">'._t('隐藏').'</a>]</span></div><div id="toc-content">';
         $toc .= '';
         $last_level = 0;
         $count_h2 = 0;
@@ -267,9 +287,10 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
 
         $toc .= str_repeat('</li></ul>', $last_level);
         $toc .= '</div></div>';
+        $toc .= "\n\n\n\n<!- toc end ->\n\n<hr>";
 
 
-        return $toc . "\n\n\n\n<!- toc end ->\n\n<hr>" . $html->save();
+        return str_replace('<!--TOC-->',$toc, $content);
 
     }
 
