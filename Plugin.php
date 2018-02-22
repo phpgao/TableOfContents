@@ -290,7 +290,7 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
         $toc .= "\n\n\n\n<!- toc end ->\n\n<hr>";
 
 
-        return str_replace('<!--TOC-->',$toc, $content);
+        return str_replace('<!--TOC-->',$toc, $html->save());
 
     }
 
